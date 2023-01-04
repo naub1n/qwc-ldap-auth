@@ -108,7 +108,8 @@ app.config['LDAP_GET_GROUP_ATTRIBUTES'] = os.environ.get(
     'LDAP_GET_GROUP_ATTRIBUTES', '*')  # LDAP_GROUP_NAME_ATTRIBUTE
 
 
-app.config['DEBUG'] = os.environ.get('FLASK_ENV', '') == 'development'
+app.config['DEBUG'] = (os.environ.get('FLASK_ENV', '') == 'development' or
+                       str(os.environ.get('FLASK_DEBUG', 0)).lower() in ['1', 'true'])
 if app.config['DEBUG']:
     logging.getLogger('flask_ldap3_login').setLevel(logging.DEBUG)
 
