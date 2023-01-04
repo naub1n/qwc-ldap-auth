@@ -39,6 +39,9 @@ SUPPORTED_LANGUAGES = ['en', 'de']
 # *Enable* WTForms built-in messages translation
 # https://wtforms.readthedocs.io/en/2.3.x/i18n/
 app.config['WTF_I18N_ENABLED'] = False
+# WTF CSRF protection conflicts with JWT CSRF protection
+# https://github.com/vimalloc/flask-jwt-extended/issues/15
+app.config['WTF_CSRF_ENABLED'] = False
 
 # https://flask-ldap3-login.readthedocs.io/en/latest/quick_start.html
 
@@ -49,7 +52,7 @@ app.config['LDAP_HOST'] = os.environ.get('LDAP_HOST', 'localhost')
 app.config['LDAP_PORT'] = int(os.environ.get('LDAP_PORT', 389))
 
 # Set to True if your server uses SSL
-app.config['LDAP_USE_SSL'] = os.environ.get('LDAP_USE_SSL', False)
+app.config['LDAP_USE_SSL'] = os.environ.get('LDAP_USE_SSL', 'False').lower() in ('true', '1', 't')
 
 # Base DN of your directory
 app.config['LDAP_BASE_DN'] = os.environ.get(
@@ -63,7 +66,7 @@ app.config['LDAP_GROUP_DN'] = os.environ.get('LDAP_GROUP_DN', 'ou=groups')
 
 # Search for groups
 app.config['LDAP_SEARCH_FOR_GROUPS'] = os.environ.get(
-    'LDAP_SEARCH_FOR_GROUPS', False)
+    'LDAP_SEARCH_FOR_GROUPS', 'False').lower() in ('true', '1', 't')
 # Specifies what scope to search in when searching for a specific group
 app.config['LDAP_GROUP_SEARCH_SCOPE'] = os.environ.get(
      'LDAP_GROUP_SEARCH_SCOPE', 'LEVEL')
